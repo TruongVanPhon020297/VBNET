@@ -1,0 +1,480 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Bot.Builder.Adapters.Twilio</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter">
+            <summary>
+            A <see cref="T:Microsoft.Bot.Builder.BotAdapter"/> that can connect to Twilio's SMS service.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapterOptions,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter"/> class using configuration settings.
+            </summary>
+            <param name="configuration">An <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/> instance.</param>
+            <remarks>
+            The configuration keys are:
+            TwilioNumber: The phone number associated with the Twilio account.
+            TwilioAccountSid: The string identifier of the account. See https://www.twilio.com/docs/glossary/what-is-a-sid
+            TwilioAuthToken: The authentication token for the account.
+            TwilioValidationUrl: The validation URL for incoming requests.
+            </remarks>
+            <param name="adapterOptions">Options for the <see cref="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter"/>.</param>
+            <param name="logger">The ILogger implementation this adapter should use.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter.#ctor(Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapper,Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapterOptions,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter"/> class.
+            </summary>
+            <param name="twilioClient">The Twilio client to connect to.</param>
+            <param name="adapterOptions">Options for the <see cref="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter"/>.</param>
+            <param name="logger">The ILogger implementation this adapter should use.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter.SendActivitiesAsync(Microsoft.Bot.Builder.ITurnContext,Microsoft.Bot.Schema.Activity[],System.Threading.CancellationToken)">
+            <summary>
+            Sends activities to the conversation.
+            </summary>
+            <param name="turnContext">The context object for the turn.</param>
+            <param name="activities">The activities to send.</param>
+            <param name="cancellationToken">A cancellation token that can be used by other objects
+            or threads to receive notice of cancellation.</param>
+            <returns>A task that represents the work queued to execute.</returns>
+            <remarks>If the activities are successfully sent, the task result contains
+            an array of <see cref="T:Microsoft.Bot.Schema.ResourceResponse"/> objects containing the SIDs that
+            Twilio assigned to the activities.</remarks>
+            <seealso cref="M:Microsoft.Bot.Builder.ITurnContext.OnSendActivities(Microsoft.Bot.Builder.SendActivitiesHandler)"/>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter.ProcessAsync(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.AspNetCore.Http.HttpResponse,Microsoft.Bot.Builder.IBot,System.Threading.CancellationToken)">
+            <summary>
+            Creates a turn context and runs the middleware pipeline for an incoming activity.
+            </summary>
+            <param name="httpRequest">The incoming HTTP request.</param>
+            <param name="httpResponse">When this method completes, the HTTP response to send.</param>
+            <param name="bot">The bot that will handle the incoming activity.</param>
+            <param name="cancellationToken">A cancellation token that can be used by other objects
+            or threads to receive notice of cancellation.</param>
+            <returns>A task that represents the work queued to execute.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="httpRequest"/>,
+            <paramref name="httpResponse"/>, or <paramref name="bot"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter.UpdateActivityAsync(Microsoft.Bot.Builder.ITurnContext,Microsoft.Bot.Schema.Activity,System.Threading.CancellationToken)">
+            <summary>
+            Replaces an existing activity in the conversation.
+            Twilio SMS does not support this operation.
+            </summary>
+            <param name="turnContext">The context object for the turn.</param>
+            <param name="activity">New replacement activity.</param>
+            <param name="cancellationToken">A cancellation token that can be used by other objects
+            or threads to receive notice of cancellation.</param>
+            <returns>A task that represents the work queued to execute.</returns>
+            <remarks>This method always returns a faulted task.</remarks>
+            <seealso cref="M:Microsoft.Bot.Builder.ITurnContext.OnUpdateActivity(Microsoft.Bot.Builder.UpdateActivityHandler)"/>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter.DeleteActivityAsync(Microsoft.Bot.Builder.ITurnContext,Microsoft.Bot.Schema.ConversationReference,System.Threading.CancellationToken)">
+            <summary>
+            Deletes an existing activity in the conversation.
+            Twilio SMS does not support this operation.
+            </summary>
+            <param name="turnContext">The context object for the turn.</param>
+            <param name="reference">Conversation reference for the activity to delete.</param>
+            <param name="cancellationToken">A cancellation token that can be used by other objects
+            or threads to receive notice of cancellation.</param>
+            <returns>A task that represents the work queued to execute.</returns>
+            <remarks>This method always returns a faulted task.</remarks>
+            <seealso cref="M:Microsoft.Bot.Builder.ITurnContext.OnDeleteActivity(Microsoft.Bot.Builder.DeleteActivityHandler)"/>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter.ContinueConversationAsync(Microsoft.Bot.Schema.ConversationReference,Microsoft.Bot.Builder.BotCallbackHandler,System.Threading.CancellationToken)">
+            <summary>
+            Sends a proactive message to a conversation.
+            </summary>
+            <param name="reference">A reference to the conversation to continue.</param>
+            <param name="logic">The method to call for the resulting bot turn.</param>
+            <param name="cancellationToken">A cancellation token that can be used by other objects
+            or threads to receive notice of cancellation.</param>
+            <returns>A task that represents the work queued to execute.</returns>
+            <remarks>Call this method to proactively send a message to a conversation.
+            Most channels require a user to initiate a conversation with a bot
+            before the bot can send activities to the user.</remarks>
+            <seealso cref="M:Microsoft.Bot.Builder.BotAdapter.RunPipelineAsync(Microsoft.Bot.Builder.ITurnContext,Microsoft.Bot.Builder.BotCallbackHandler,System.Threading.CancellationToken)"/>
+            <exception cref="T:System.ArgumentNullException"><paramref name="reference"/> or
+            <paramref name="logic"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter.ContinueConversationAsync(System.Security.Claims.ClaimsIdentity,Microsoft.Bot.Schema.ConversationReference,Microsoft.Bot.Builder.BotCallbackHandler,System.Threading.CancellationToken)">
+            <summary>
+            Sends a proactive message from the bot to a conversation.
+            </summary>
+            <param name="claimsIdentity">A <see cref="T:System.Security.Claims.ClaimsIdentity"/> for the conversation.</param>
+            <param name="reference">A reference to the conversation to continue.</param>
+            <param name="callback">The method to call for the resulting bot turn.</param>
+            <param name="cancellationToken">Cancellation token.</param>
+            <returns>A task that represents the work queued to execute.</returns>
+            <remarks>Call this method to proactively send a message to a conversation.
+            Most _channels require a user to initialize a conversation with a bot
+            before the bot can send activities to the user.
+            <para>This method registers the following services for the turn.<list type="bullet">
+            <item><description><see cref="T:System.Security.Principal.IIdentity"/> (key = "BotIdentity"), a claims claimsIdentity for the bot.
+            </description></item>
+            </list></para>
+            </remarks>
+            <seealso cref="M:Microsoft.Bot.Builder.BotAdapter.RunPipelineAsync(Microsoft.Bot.Builder.ITurnContext,Microsoft.Bot.Builder.BotCallbackHandler,System.Threading.CancellationToken)"/>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter.HasConfiguration(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Determines whether the provided <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/> has the settings needed to
+            configure a <see cref="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter"/>.
+            </summary>
+            <param name="configuration"><see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/> to verify for settings.</param>
+            <returns>A value indicating whether the configuration has the necessary settings required to create a <see cref="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter"/>.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapterBotComponent">
+            <summary>
+            <see cref="T:Microsoft.Bot.Builder.BotComponent"/> definition for <see cref="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapterBotComponent.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapterOptions">
+            <summary>
+            Options for the <see cref="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter"/>.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapterOptions.ValidateIncomingRequests">
+            <summary>
+            Gets or sets a value indicating whether incoming requests should be validated as coming from Twilio.
+            </summary>
+            <value>
+            A value indicating whether incoming requests should be validated as coming from Twilio.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapper">
+            <summary>
+            Wrapper class for the Twilio API.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapper.#ctor(Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapperOptions)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapper"/> class.
+            </summary>
+            <param name="options">An object containing API credentials, a webhook verification token and other options.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapper.Options">
+            <summary>
+            Gets the <see cref="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapperOptions"/> for the wrapper. 
+            </summary>
+            <value>
+            The <see cref="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapperOptions"/> for the wrapper.
+            </value>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapper.SendMessageAsync(Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessageOptions,System.Threading.CancellationToken)">
+            <summary>
+            Sends a Twilio SMS message.
+            </summary>
+            <param name="messageOptions">An object containing the parameters for the message to send.</param>
+            <param name="cancellationToken">A cancellation token for the task.</param>
+            <returns>The SID of the Twilio message sent.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapper.ValidateSignature(Microsoft.AspNetCore.Http.HttpRequest,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Validates an HTTP request as coming from Twilio.
+            </summary>
+            <param name="httpRequest">The request to validate.</param>
+            <param name="body">The request payload, as key-value pairs.</param>
+            <returns>The result of the comparison between the signature in the request and the hashed body.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapperOptions">
+            <summary>
+            Defines options for a <see cref="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapper"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapperOptions.#ctor(System.String,System.String,System.String,System.Uri)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapperOptions"/> class.
+            </summary>
+            <param name="twilioNumber">The twilio phone number.</param>
+            <param name="twilioAccountSid">The account id.</param>
+            <param name="twilioAuthToken">The authentication token.</param>
+            <param name="twilioValidationUrl">The validation URL for incoming requests.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapperOptions.TwilioNumber">
+            <summary>
+            Gets or sets the phone number associated with this Twilio app.
+            </summary>
+            <value>
+            The phone number.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapperOptions.TwilioAccountSid">
+            <summary>
+            Gets or sets the account SID from the Twilio account.
+            </summary>
+            <value>The account SID.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapperOptions.TwilioAuthToken">
+            <summary>
+            Gets or sets the API auth token associated with the Twilio account.
+            </summary>
+            <value>The authentication token.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapperOptions.TwilioValidationUrl">
+            <summary>
+            Gets or sets an optional validation URL.
+            </summary>
+            <value>Optional validation URL to override the automatically generated URL signature used
+            to validate incoming requests. See the Twilio security documentation on
+            [validating requests](https://www.twilio.com/docs/usage/security#validating-requests).</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioClientWrapperOptions.ValidateIncomingRequests">
+            <summary>
+            Gets or sets a value indicating whether incoming requests are validated as being genuine requests from Twilio.
+            </summary>
+            <value>
+            A flag indicating whether incoming requests are validated as being genuine requests from Twilio.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioHelper">
+            <summary>
+            A helper class to create Activities and Twilio messages.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioHelper.ActivityToTwilio(Microsoft.Bot.Schema.Activity,System.String)">
+            <summary>
+            Creates Twilio SMS message options object from a Bot Framework <see cref="T:Microsoft.Bot.Schema.Activity"/>.
+            </summary>
+            <param name="activity">The activity.</param>
+            <param name="twilioNumber">Optional. The Twilio phone number assigned to the bot. If not provided, defaults to Activity.From.Id to allow WhatsApp and other future integrations.</param>
+            <returns>The Twilio message options object.</returns>
+            <seealso cref="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioAdapter.SendActivitiesAsync(Microsoft.Bot.Builder.ITurnContext,Microsoft.Bot.Schema.Activity[],System.Threading.CancellationToken)"/>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioHelper.WriteAsync(Microsoft.AspNetCore.Http.HttpResponse,System.Int32,System.String,System.Text.Encoding,System.Threading.CancellationToken)">
+            <summary>
+            Writes the HttpResponse.
+            </summary>
+            <param name="response">The httpResponse.</param>
+            <param name="code">The status code to be written.</param>
+            <param name="text">The text to be written.</param>
+            <param name="encoding">The encoding for the text.</param>
+            <param name="cancellationToken">A cancellation token for the task.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioHelper.PayloadToActivity(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Creates a Bot Framework <see cref="T:Microsoft.Bot.Schema.Activity"/> from an HTTP request that contains a Twilio message.
+            </summary>
+            <param name="payload">The HTTP request.</param>
+            <returns>The activity object.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioHelper.GetMessageAttachments(System.Int32,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Gets attachments from a Twilio message.
+            </summary>
+            <param name="numMedia">The number of media items to pull from the message body.</param>
+            <param name="message">A dictionary containing the Twilio message elements.</param>
+            <returns>An Attachments array with the converted attachments.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Adapters.Twilio.TwilioHelper.QueryStringToDictionary(System.String)">
+            <summary>
+            Converts a query string to a dictionary with key-value pairs.
+            </summary>
+            <param name="query">The query string to convert.</param>
+            <returns>A dictionary with the query values.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage">
+            <summary>
+            A class wrapping Twilio request parameters.
+            </summary>
+            <remarks>These parameters can be included in an HTTP request that contains a Twilio message.</remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.Author">
+            <summary>
+            Gets or sets the Author of the message.
+            </summary>
+            <value>The Author of the message.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.ToCountry">
+            <summary>
+            Gets or sets the receiver's country.
+            </summary>
+            <value>The receiver's country, such as "US".</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.FromCountry">
+            <summary>
+            Gets or sets the sender's country.
+            </summary>
+            <value>The sender's country, such as "US".</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.ToState">
+            <summary>
+            Gets or sets the receiver's state or province.
+            </summary>
+            <value>The receiver's state or province, such as "NY".</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.SmsMessageSid">
+            <summary>
+            Gets or sets the `sms_id` found in the response of a phone verification start.
+            </summary>
+            <value>The`sms_id` found in the response of a phone verification start.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.NumMedia">
+            <summary>
+            Gets or sets the number of media files associated with the message.
+            </summary>
+            <value>The number of media files associated with the message.</value>
+            <remarks>A message can include up to 10 media files.</remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.MediaUrls">
+            <summary>
+            Gets the URLs referencing the media content included with the message, if any.
+            </summary>
+            <value>URLs referencing the media content included with the message.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.MediaContentTypes">
+            <summary>
+            Gets the content types for the media included with the message, if any.
+            </summary>
+            <value>The content types for the media included with the message.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.ToCity">
+            <summary>
+            Gets or sets the receiver's city.
+            </summary>
+            <value>The receiver's city, such as "FARMINGDALE".</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.FromZip">
+            <summary>
+            Gets or sets the sender's postal code.
+            </summary>
+            <value>The sender's postal code. </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.SmsSid">
+            <summary>
+            Gets or sets the SMS security identifier.
+            </summary>
+            <value>The SMS message security identifier.</value>
+            <remarks>Same as the <see cref="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.MessageSid"/>.</remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.FromState">
+            <summary>
+            Gets or sets the sender's state or province.
+            </summary>
+            <value>The sender's state or province, such as "NY".</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.SmsStatus">
+            <summary>
+            Gets or sets the status of the message.
+            </summary>
+            <value>The status of the message, such as "received".</value>
+            <remarks>See [message status values](https://aka.ms/twilio-message-status-values)
+            for a list of the possible values.</remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.FromCity">
+            <summary>
+            Gets or sets the sender's city.
+            </summary>
+            <value>The sender's city, such as "FARMINGDALE".</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.Body">
+            <summary>
+            Gets or sets the message text.
+            </summary>
+            <value>The message text. Can be up to 1,600 characters long.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.To">
+            <summary>
+            Gets or sets the phone number in E.164 format that received the message.
+            </summary>
+            <value>The phone number in E.164 format that received the message.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.ToZip">
+            <summary>
+            Gets or sets the recipient's postal code.
+            </summary>
+            <value>The recipient's postal code.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.NumSegments">
+            <summary>
+            Gets or sets the number of segments that make up the complete message.
+            </summary>
+            <value>The number of segments that make up the complete message.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.MessageSid">
+            <summary>
+            Gets or sets the security identifier of the message.
+            </summary>
+            <value>The security identifier of the message.</value>
+            <remarks>For more information, see [Security Identifier (SID)](https://aka.ms/twilio-sid).
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.AccountSid">
+            <summary>
+            Gets or sets the Sid of the Account that sent the message that created the resource.
+            </summary>
+            <value>The security identifier of the Account that sent the message.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.From">
+            <summary>
+            Gets or sets the sender phone number.
+            </summary>
+            <value>The phone number (in E.164 format), alphanumeric sender ID, or Wireless SIM that initiated the message.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.ApiVersion">
+            <summary>
+            Gets or sets the API version used to process the message.
+            </summary>
+            <value>The API version used to process the message.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessage.EventType">
+            <summary>
+            Gets or sets the event type for using with Twilio Conversation API.
+            </summary>
+            <value>The type of event, e.g. "onMessageAdd", "onMessageAdded", "onConversationAdd".</value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessageOptions">
+            <summary>
+            Represents an outgoing message content and options for Twilio.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessageOptions.To">
+            <summary>
+            Gets or sets the destination phone number.
+            </summary>
+            <value>
+            The destination phone number.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessageOptions.From">
+            <summary>
+            Gets or sets the phone number that initiated the message.
+            </summary>
+            <value>
+            The phone number that initiated the message.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessageOptions.Body">
+            <summary>
+            Gets or sets the text of the message you want to send. Can be up to 1,600 characters in length.
+            </summary>
+            <value>
+            The text of the message you want to send. Can be up to 1,600 characters in length.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessageOptions.MediaUrl">
+            <summary>
+            Gets the URL of the media to send with the message.
+            </summary>
+            <value>
+            The URL of the media to send with the message.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Adapters.Twilio.TwilioMessageOptions.ApplicationSid">
+            <summary>
+            Gets or sets the application to use for callbacks.
+            </summary>
+            <value>
+            The application to use for callbacks.
+            </value>
+        </member>
+    </members>
+</doc>
