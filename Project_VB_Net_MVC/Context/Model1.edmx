@@ -135,6 +135,7 @@
           <Property Name="register_time" Type="datetime" Nullable="false" />
           <Property Name="status" Type="bit" Nullable="false" />
           <Property Name="delivery_id" Type="int" />
+          <Property Name="user_lock" Type="int" />
         </EntityType>
         <EntityType Name="order_detail">
           <Key>
@@ -418,6 +419,7 @@
           <Property Name="register_time" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="status" Type="Boolean" Nullable="false" />
           <Property Name="delivery_id" Type="Int32" />
+          <Property Name="user_lock" Type="Int32" />
         </EntityType>
         <EntityType Name="order_detail">
           <Key>
@@ -541,7 +543,7 @@
           <Property Name="image" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="otp" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
         </EntityType>
-        <EntityContainer Name="DBNetEntities3" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DBNetEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="cart" EntityType="Self.cart" />
           <EntitySet Name="cart_detail" EntityType="Self.cart_detail" />
           <EntitySet Name="cart_reminder" EntityType="Self.cart_reminder" />
@@ -571,7 +573,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DBNetModelStoreContainer" CdmEntityContainer="DBNetEntities3">
+        <EntityContainerMapping StorageEntityContainer="DBNetModelStoreContainer" CdmEntityContainer="DBNetEntities2">
           <EntitySetMapping Name="cart">
             <EntityTypeMapping TypeName="DBNetModel.cart">
               <MappingFragment StoreEntitySet="cart">
@@ -712,6 +714,7 @@
                 <ScalarProperty Name="register_time" ColumnName="register_time" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="delivery_id" ColumnName="delivery_id" />
+                <ScalarProperty Name="user_lock" ColumnName="user_lock" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

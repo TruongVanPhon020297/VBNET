@@ -129,6 +129,7 @@ End Code
                                 Else
                                     @<a href="http://localhost:53005/users/Favorite/?productID=@item.product.Id" Class="btn btn-success"><i Class="fa fa-heart-o" aria-hidden="true"></i></a>
                                 End If
+                                <a href="http://localhost:53005/users/ShareOnFacebook/?productID=@item.product.Id" Class="btn btn-default"><i class="fa fa-share" aria-hidden="true"></i></a>
                             </div>
                         </div>
                     </div>

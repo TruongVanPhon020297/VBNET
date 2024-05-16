@@ -11,11 +11,11 @@ Imports System
 Imports System.Data.Entity
 Imports System.Data.Entity.Infrastructure
 
-Partial Public Class DBNetEntities3
+Partial Public Class DBNetEntities2
     Inherits DbContext
 
     Public Sub New()
-        MyBase.New("name=DBNetEntities3")
+        MyBase.New("name=DBNetEntities2")
     End Sub
 
     Protected Overrides Sub OnModelCreating(modelBuilder As DbModelBuilder)

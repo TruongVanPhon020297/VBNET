@@ -108,7 +108,7 @@ End Code
                                                                     @Html.ActionLink("GO TO", "OrderDetailPage", New With {.id = detail.id})
                                                                 </td>
                                                                 <td>
-                                                                    @If detail.status = False Then
+                                                                    @If detail.status = False And detail.user_lock Is Nothing Then
                                                                         @Using (Html.BeginForm("CancelOrder", "users"))
                                                                             @Html.AntiForgeryToken()
                                                                             @Html.TextBox("orderId", detail.id, htmlAttributes:=New With {.class = "form-control mr-sm-2", .style = "display: none;"})

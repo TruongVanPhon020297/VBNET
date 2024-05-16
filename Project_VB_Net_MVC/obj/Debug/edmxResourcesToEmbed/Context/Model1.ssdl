@@ -130,6 +130,7 @@
     <Property Name="register_time" Type="datetime" Nullable="false" />
     <Property Name="status" Type="bit" Nullable="false" />
     <Property Name="delivery_id" Type="int" />
+    <Property Name="user_lock" Type="int" />
   </EntityType>
   <EntityType Name="order_detail">
     <Key>

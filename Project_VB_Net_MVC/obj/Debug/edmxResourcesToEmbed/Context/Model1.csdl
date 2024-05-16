@@ -130,6 +130,7 @@
     <Property Name="register_time" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="status" Type="Boolean" Nullable="false" />
     <Property Name="delivery_id" Type="Int32" />
+    <Property Name="user_lock" Type="Int32" />
   </EntityType>
   <EntityType Name="order_detail">
     <Key>
@@ -253,7 +254,7 @@
     <Property Name="image" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
     <Property Name="otp" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
   </EntityType>
-  <EntityContainer Name="DBNetEntities3" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="DBNetEntities2" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="cart" EntityType="Self.cart" />
     <EntitySet Name="cart_detail" EntityType="Self.cart_detail" />
     <EntitySet Name="cart_reminder" EntityType="Self.cart_reminder" />

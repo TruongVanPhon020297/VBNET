@@ -18,5 +18,6 @@ Partial Public Class order
     Public Property register_time As Date
     Public Property status As Boolean
     Public Property delivery_id As Nullable(Of Integer)
+    Public Property user_lock As Nullable(Of Integer)
 
 End Class

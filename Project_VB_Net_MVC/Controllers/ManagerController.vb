@@ -7,7 +7,7 @@ Namespace Controllers
     Public Class ManagerController
         Inherits System.Web.Mvc.Controller
 
-        Private db As New DBNetEntities3
+        Private db As New DBNetEntities2
 
         Enum NotificationType
             Product = 1
@@ -412,12 +412,41 @@ Namespace Controllers
                             Where o.order_id = orderInfo.id
                             Select o).ToList()
 
+            Dim userCookie = Request.Cookies("Manager")
+            Dim userIdCookie = Decimal.Parse(userCookie.Value)
+
             Dim userInfo = db.user.Find(orderInfo.user_id)
 
             Dim delivery As delivery = New delivery()
             delivery = db.delivery.Find(orderInfo.delivery_id)
 
-            Dim tupleData As New Tuple(Of List(Of order_detail), order, user, delivery)(orderDetails, orderInfo, userInfo, delivery)
+            Dim userLockInfo As user = Nothing
+            Dim userResult As UserLock = New UserLock
+
+            userResult.id = userIdCookie
+
+            If orderInfo.user_lock Is Nothing Then
+
+                orderInfo.user_lock = userIdCookie
+
+                db.Entry(orderInfo).State = EntityState.Modified
+
+                db.SaveChanges()
+                userLockInfo = db.user.Find(userIdCookie)
+                userResult.flg = True
+            Else
+                userLockInfo = db.user.Find(orderInfo.user_lock)
+                If userLockInfo.id = userIdCookie Then
+                    userResult.flg = True
+                Else
+                    userResult.flg = False
+                End If
+            End If
+
+            userResult.user = userInfo
+            userResult.userLock = userLockInfo
+
+            Dim tupleData As New Tuple(Of List(Of order_detail), order, UserLock, delivery)(orderDetails, orderInfo, userResult, delivery)
 
             Return View("~/Views/managers/OrderDetail.vbhtml", tupleData)
 
@@ -444,6 +473,13 @@ Namespace Controllers
 
             Dim orderInfo As order = New order()
             orderInfo = db.order.Find(orderId)
+
+            If orderInfo Is Nothing Or orderInfo.status = True Then
+
+                Return RedirectToAction("OrderPage")
+
+            End If
+
             orderInfo.status = True
 
             db.Entry(orderInfo).State = EntityState.Modified
@@ -1754,6 +1790,17 @@ Namespace Controllers
             Return RedirectToAction("HomePage")
         End Function
 
+        Function OrderPageRollBack(orderId As Integer) As ActionResult
+
+            Dim order As order = db.order.Find(orderId)
+            order.user_lock = Nothing
+
+            db.Entry(order).State = EntityState.Modified
+            db.SaveChanges()
+
+            Return RedirectToAction("OrderPage")
+
+        End Function
 
 
 

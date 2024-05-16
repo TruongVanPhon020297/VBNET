@@ -1,17 +1,75 @@
-﻿@ModelType Tuple(Of List(Of order_detail), order, user, delivery)
+﻿@ModelType Tuple(Of List(Of order_detail), order, UserLock, delivery)
 @Code
     ViewData("Title") = "OrderDetail"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 End Code
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+
+    .alert-container {
+        width: 400px;
+        margin: 100px auto;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    .alert-title {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .alert-message {
+        margin-bottom: 20px;
+    }
+
+    .alert-buttons {
+        text-align: right;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+</style>
+
 @if Model IsNot Nothing Then
     Dim orderDetails As List(Of order_detail) = Model.Item1
     Dim delivery As delivery = Model.Item4
     Dim order As order = Model.Item2
-    Dim user As user = Model.Item3
-    @Html.ActionLink("ORDER PAGE", "OrderPage", "Manager", Nothing, New With {.class = "btn btn-info"})
+    Dim user As user = Model.Item3.user
+    Dim userLock As user = Model.Item3.userLock
+
+    If userLock IsNot Nothing And Model.Item3.flg = False And Not order.status Then
+        @<div class="alert-container">
+            <div class="alert-title">Thông báo cảnh báo</div>
+            <div class="alert-message">Dữ liệu đang được @userLock.full_name sử dụng, bạn không thể thao tác trên dữ liệu này  </div>
+            <div class="alert-buttons">
+                <button class="btn" onclick="closeAlert()">Đồng ý</button>
+            </div>
+        </div>
+    End If
+
+    If Model.Item3.flg = False  Then
+        @Html.ActionLink("ORDER PAGE", "OrderPage", "Manager", New With {.class = "btn btn-info"})
+    Else
+        @Html.ActionLink("ORDER PAGE", "OrderPageRollBack", "Manager", New With {.orderId = order.id}, New With {.class = "btn btn-info"})
+    End If
+
+
     @<div class="container px-3 my-5 clearfix">
-        <!-- Shopping cart table -->
+        
         <div class="card">
             <div class="card-header">
                 <h2>Order Detail</h2>
@@ -21,7 +79,7 @@ End Code
                     <table class="table table-bordered m-0">
                         <thead>
                             <tr>
-                                <!-- Set columns width -->
+                                
                                 <th class="text-center py-3 px-4" style="min-width: 400px;">Product Name &amp; Details</th>
                                 <th class="text-right py-3 px-4" style="width: 100px;">Price</th>
                                 <th class="text-center py-3 px-4" style="width: 120px;">Quantity</th>
@@ -49,7 +107,6 @@ End Code
                         </tbody>
                     </table>
                 </div>
-                <!-- / Shopping cart table -->
 
                 <div class="d-flex flex-wrap justify-content-between align-items-center pb-4">
                     <div class="d-flex">
@@ -77,11 +134,11 @@ End Code
                         @<Label Class="text-muted font-weight-normal">Delivery Date</Label>
                         @<div>@delivery.delivery_date.Value.ToShortDateString()</div>
                     End If
-                    @If Not order.status Then
+                    @If Not order.status And Model.Item3.flg Then
                         @<div Class="row gx-3 mb-3">
                             <div Class="col-md-6">
                                 <Label Class="text-muted font-weight-normal">Delivery Date</Label>
-                                <input Class="form-control" id="inputBirthday" type="date" name="deliveryDate" value="@Date.Now().ToShortDateString()"/>
+                                <input Class="form-control" id="inputBirthday" type="date" name="deliveryDate" value="@Date.Now().ToShortDateString()" />
                             </div>
                         </div>
                         @<div Class="float-right" style="margin-top:10px">
@@ -95,3 +152,8 @@ End Code
 End If
 
 
+<script>
+    function closeAlert() {
+        document.querySelector('.alert-container').style.display = 'none';
+    }
+</script>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="DBNetModelStoreContainer" CdmEntityContainer="DBNetEntities3">
+  <EntityContainerMapping StorageEntityContainer="DBNetModelStoreContainer" CdmEntityContainer="DBNetEntities2">
     <EntitySetMapping Name="cart">
       <EntityTypeMapping TypeName="DBNetModel.cart">
         <MappingFragment StoreEntitySet="cart">
@@ -141,6 +141,7 @@
           <ScalarProperty Name="register_time" ColumnName="register_time" />
           <ScalarProperty Name="status" ColumnName="status" />
           <ScalarProperty Name="delivery_id" ColumnName="delivery_id" />
+          <ScalarProperty Name="user_lock" ColumnName="user_lock" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

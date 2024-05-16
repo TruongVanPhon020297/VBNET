@@ -210,3 +210,5 @@ C:\Users\Fanatic Developer\source\repos\Project_VB_Net_MVC\Project_VB_Net_MVC\bi
 C:\Users\Fanatic Developer\source\repos\Project_VB_Net_MVC\Project_VB_Net_MVC\bin\System.ValueTuple.xml
 C:\Users\Fanatic Developer\source\repos\Project_VB_Net_MVC\Project_VB_Net_MVC\bin\Twilio.xml
 C:\Users\Fanatic Developer\source\repos\Project_VB_Net_MVC\Project_VB_Net_MVC\bin\Project_VB_Net_MVC.tlb
+C:\Users\Fanatic Developer\source\repos\Project_VB_Net_MVC\Project_VB_Net_MVC\bin\Facebook.dll
+C:\Users\Fanatic Developer\source\repos\Project_VB_Net_MVC\Project_VB_Net_MVC\bin\Facebook.xml

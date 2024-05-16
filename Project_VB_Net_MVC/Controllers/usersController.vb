@@ -4,11 +4,12 @@ Imports Twilio
 Imports Twilio.Clients
 Imports Twilio.Rest.Api.V2010.Account
 Imports Twilio.Types
+Imports Facebook
 Namespace Controllers
     Public Class usersController
         Inherits System.Web.Mvc.Controller
 
-        Private db As New DBNetEntities3
+        Private db As New DBNetEntities2
 
 
 
@@ -1199,6 +1200,13 @@ Namespace Controllers
             Dim userId = Decimal.Parse(userInfo.Value)
 
             Dim order As order = db.order.Find(Decimal.Parse(orderId))
+
+            If order.status = True Then
+
+                Return RedirectToAction("OrderInfo")
+
+            End If
+
             db.order.Remove(order)
             db.SaveChanges()
 
@@ -2011,7 +2019,7 @@ Namespace Controllers
             Return View("Location")
         End Function
 
-        ' POST: Stores/FindNearest
+        
         <HttpPost>
         Public Function FindNearest(latitude As Double, longitude As Double) As JsonResult
             Dim currentLocation As New GeoCoordinate(latitude, longitude)
@@ -2040,6 +2048,27 @@ Namespace Controllers
             Next
 
             Return nearestStore
+        End Function
+
+
+        Public Function ShareOnFacebook(productID As Integer) As ActionResult
+
+            Dim product As product = db.product.Find(productID)
+
+            Dim fb As New FacebookClient("EAAF5v6kC1S4BO2krW8ioxHZAG7hZA5zx2QZAYDceUVxxDZAmg34G8nHBPP6NtzWlGSPOhsEBiNKHeV8WSEjGLPHJ1ODlVGKmxebTNXwNuDAVB9NAuELVPXZCH4liAXRCCvCED1Wl0Do8llvgoInl3Hd5chexDtBJIRTBSpeJQvCw6NS1hPEAe9STZAZC30MedvowVRb2CX5")
+
+            Dim parameters As New Dictionary(Of String, Object)()
+            parameters("message") = "Check out this amazing product: " & product.product_name
+            parameters("link") = "http://yourwebsite.com/products/" & productID
+            parameters("picture") = product.image
+            parameters("name") = product.product_name
+            parameters("description") = product.description
+
+
+            fb.Post("me/feed", parameters)
+
+
+            Return RedirectToAction("ProductDetail", New With {.id = productID})
         End Function
 
     End Class
